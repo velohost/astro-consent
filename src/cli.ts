@@ -28,6 +28,7 @@ function exitWith(message: string, code = 1): never {
 
 /* ─────────────────────────────────────
    Locate astro.config
+   
 ───────────────────────────────────── */
 
 const configPath = findAstroConfig();
