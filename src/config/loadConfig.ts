@@ -16,15 +16,13 @@ export async function loadUserConfig(
   const configPath = path.join(
     projectRoot,
     "src",
-    "cookiebanner",
+    "astro-consent",
     "config.ts"
   );
 
   let userConfig: Partial<CookieBannerConfig> = {};
 
   try {
-    // 🔑 IMPORTANT:
-    // Bust Node ESM import cache using file modified time
     const stat = fs.statSync(configPath);
     const cacheBuster = `?v=${stat.mtimeMs}`;
 
@@ -36,25 +34,15 @@ export async function loadUserConfig(
     userConfig = imported?.default ?? {};
   } catch (err) {
     console.warn(
-      "[cookiebanner] Failed to load user config, falling back to defaults:",
-      err
+      "[astro-consent] Failed to load user config, falling back to defaults"
     );
   }
 
   return {
-    /* ─────────────────────────────
-       Site name
-    ───────────────────────────── */
     siteName: userConfig.siteName ?? DEFAULT_CONFIG.siteName,
 
-    /* ─────────────────────────────
-       Policy URL
-    ───────────────────────────── */
     policyUrl: userConfig.policyUrl ?? DEFAULT_CONFIG.policyUrl,
 
-    /* ─────────────────────────────
-       Consent settings
-    ───────────────────────────── */
     consent: {
       enabled:
         userConfig.consent?.enabled ??
@@ -69,9 +57,6 @@ export async function loadUserConfig(
         DEFAULT_CONFIG.consent.storageKey
     },
 
-    /* ─────────────────────────────
-       Categories
-    ───────────────────────────── */
     categories: mergeCategories(
       userConfig.categories,
       DEFAULT_CONFIG.categories
@@ -81,7 +66,9 @@ export async function loadUserConfig(
 
 /**
  * Merge category config safely.
- * Defaults are preserved, user overrides where provided.
+ * - Defaults are preserved
+ * - User overrides win
+ * - Custom categories are supported
  */
 function mergeCategories(
   userCategories: CookieBannerConfig["categories"] | undefined,
@@ -97,11 +84,14 @@ function mergeCategories(
     };
   }
 
-  // Include any custom categories the user added
+  // Add user-defined custom categories safely
   if (userCategories) {
     for (const key of Object.keys(userCategories)) {
       if (!merged[key]) {
-        merged[key] = userCategories[key];
+        merged[key] = {
+          ...userCategories[key],
+          enabled: userCategories[key].enabled ?? false
+        };
       }
     }
   }

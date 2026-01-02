@@ -1,9 +1,15 @@
 import type { CookieBannerConfig } from "../types/config.js";
 
 /**
- * Default configuration values.
- * These are ONLY used as fallbacks if the user omits something.
- * User config always takes priority.
+ * DEFAULT_CONFIG
+ * ---------------------------------------------------------
+ * Fallback values ONLY.
+ *
+ * These are used:
+ * - when the user omits a value
+ * - during internal normalisation
+ *
+ * User-provided config ALWAYS takes priority.
  */
 export const DEFAULT_CONFIG: CookieBannerConfig = {
   siteName: "This website",
@@ -12,8 +18,12 @@ export const DEFAULT_CONFIG: CookieBannerConfig = {
 
   consent: {
     enabled: true,
+
+    // Number of days consent remains valid
     days: 30,
-    storageKey: "astro-cookie-consent"
+
+    // Must match runtime + frontend API
+    storageKey: "astro-consent"
   },
 
   categories: {

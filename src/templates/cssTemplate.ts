@@ -28,7 +28,7 @@ export const DEFAULT_CSS = `
   --cb-text-size: 0.875rem;
 }
 
-#astro-cookie-banner {
+#astro-consent-banner {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -40,55 +40,55 @@ export const DEFAULT_CSS = `
   border-top: 1px solid var(--cb-border);
 }
 
-#astro-cookie-banner > * {
+#astro-consent-banner > * {
   max-width: var(--cb-max-width);
   margin: 0 auto;
   padding: var(--cb-padding);
 }
 
-#astro-cookie-banner h2 {
+#astro-consent-banner h2 {
   margin: 0 0 4px;
   font-size: var(--cb-title-size);
 }
 
-#astro-cookie-banner p {
+#astro-consent-banner p {
   margin: 0;
   font-size: var(--cb-text-size);
   color: var(--cb-muted);
 }
 
-#astro-cookie-banner a {
+#astro-consent-banner a {
   color: var(--cb-accent);
   text-decoration: underline;
 }
 
-.astro-cookie-categories {
+.astro-consent-categories {
   display: grid;
   gap: var(--cb-gap);
   margin-top: var(--cb-gap);
 }
 
-.astro-cookie-category {
+.astro-consent-category {
   background: var(--cb-surface);
   padding: 12px;
   border-radius: var(--cb-radius);
   border: 1px solid var(--cb-border);
 }
 
-.astro-cookie-label {
+.astro-consent-label {
   display: flex;
   align-items: center;
   gap: 8px;
   font-weight: 600;
 }
 
-.astro-cookie-description {
+.astro-consent-description {
   margin: 4px 0 0 26px;
   font-size: 0.8rem;
   color: var(--cb-muted);
 }
 
-.astro-cookie-actions {
+.astro-consent-actions {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
@@ -96,7 +96,7 @@ export const DEFAULT_CSS = `
   flex-wrap: wrap;
 }
 
-.astro-cookie-actions button {
+.astro-consent-actions button {
   padding: 8px 14px;
   border-radius: var(--cb-radius);
   font-size: 0.875rem;
@@ -104,12 +104,12 @@ export const DEFAULT_CSS = `
   border: 1px solid var(--cb-btn-border);
 }
 
-.astro-cookie-actions button:first-child {
+.astro-consent-actions button:first-child {
   background: var(--cb-btn-secondary-bg);
   color: var(--cb-btn-secondary-text);
 }
 
-.astro-cookie-actions button:last-child {
+.astro-consent-actions button:last-child {
   background: var(--cb-btn-bg);
   color: var(--cb-btn-text);
   border-color: var(--cb-btn-bg);

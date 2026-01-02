@@ -40,164 +40,7 @@ export default function astroConsent(
     hooks: {
       "astro:config:setup": ({ injectScript }) => {
         /* ─────────────────────────────────────
-           Structural styles ONLY
-           (NO colours, NO theme values)
-        ───────────────────────────────────── */
-
-        injectScript(
-          "head-inline",
-          `
-const style = document.createElement("style");
-style.innerHTML = \`
-#astro-consent-banner {
-  position: fixed;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
-  z-index: 9999;
-  font-family: var(--cb-font);
-}
-
-.cb-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 24px;
-  display: flex;
-  gap: 24px;
-  justify-content: space-between;
-  align-items: center;
-
-  background: var(--cb-bg);
-  border-radius: var(--cb-radius);
-  border: 1px solid var(--cb-border);
-  box-shadow: var(--cb-shadow);
-  color: var(--cb-text);
-}
-
-.cb-title {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.cb-desc {
-  font-size: 14px;
-  color: var(--cb-muted);
-}
-
-.cb-desc a {
-  color: var(--cb-link);
-  text-decoration: none;
-}
-
-.cb-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.cb-actions button {
-  padding: var(--cb-btn-padding);
-  border-radius: var(--cb-btn-radius);
-  border: 1px solid transparent;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* Buttons use ONLY variables */
-.cb-accept {
-  background: var(--cb-accept-bg);
-  color: var(--cb-accept-text);
-}
-
-.cb-reject {
-  background: var(--cb-reject-bg);
-  color: var(--cb-reject-text);
-}
-
-.cb-manage {
-  background: var(--cb-manage-bg);
-  color: var(--cb-manage-text);
-  border: 1px solid var(--cb-manage-border);
-}
-
-/* Modal */
-
-#astro-consent-modal {
-  position: fixed;
-  inset: 0;
-  background: var(--cb-modal-backdrop);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-}
-
-.cb-modal {
-  width: 100%;
-  max-width: var(--cb-modal-width);
-  background: var(--cb-modal-bg);
-  border-radius: var(--cb-modal-radius);
-  padding: 24px;
-  border: 1px solid var(--cb-border);
-  color: var(--cb-text);
-}
-
-.cb-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--cb-border);
-}
-
-.cb-row:last-child {
-  border-bottom: 0;
-}
-
-/* Toggles */
-
-.cb-toggle {
-  width: 44px;
-  height: 24px;
-  background: var(--cb-toggle-off-bg);
-  border-radius: 999px;
-  position: relative;
-  cursor: pointer;
-}
-
-.cb-toggle span {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  background: var(--cb-toggle-knob);
-  border-radius: 50%;
-  top: 3px;
-  left: 3px;
-  transition: transform 0.2s ease;
-}
-
-.cb-toggle.active {
-  background: var(--cb-toggle-on-bg);
-}
-
-.cb-toggle.active span {
-  transform: translateX(20px);
-}
-
-@media (max-width: 640px) {
-  .cb-container {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 16px;
-  }
-}
-\`;
-document.head.appendChild(style);
-`
-        );
-
-        /* ─────────────────────────────────────
-           Consent runtime
+           Consent runtime (NO CSS)
         ───────────────────────────────────── */
 
         injectScript(
@@ -245,7 +88,7 @@ document.head.appendChild(style);
         );
 
         /* ─────────────────────────────────────
-           Banner + modal UI
+           Banner + modal UI (NO CSS)
         ───────────────────────────────────── */
 
         injectScript(
@@ -313,7 +156,7 @@ document.head.appendChild(style);
           <div class="cb-toggle" data-key="marketing"><span></span></div>
         </div>
 
-        <div class="cb-actions" style="margin-top:16px;justify-content:flex-end">
+        <div class="cb-actions">
           <button class="cb-accept">Save preferences</button>
         </div>
       </div>
