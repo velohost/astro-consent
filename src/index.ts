@@ -40,6 +40,15 @@ export default function astroConsent(
     hooks: {
       "astro:config:setup": ({ injectScript }) => {
         /* ─────────────────────────────────────
+           LOAD USER CSS (required)
+        ───────────────────────────────────── */
+
+        injectScript(
+          "head-inline",
+          `@import "/src/cookiebanner.css";`
+        );
+
+        /* ─────────────────────────────────────
            Consent runtime (NO CSS)
         ───────────────────────────────────── */
 
