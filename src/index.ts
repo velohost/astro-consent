@@ -1,6 +1,6 @@
 import type { AstroIntegration } from "astro";
 
-export interface AstroCookieBannerOptions {
+export interface AstroConsentOptions {
   siteName?: string;
   policyUrl?: string;
 
@@ -16,15 +16,15 @@ export interface AstroCookieBannerOptions {
   };
 }
 
-export default function astroCookieBanner(
-  options: AstroCookieBannerOptions = {}
+export default function astroConsent(
+  options: AstroConsentOptions = {}
 ): AstroIntegration {
   const siteName = options.siteName ?? "This website";
   const policyUrl = options.policyUrl ?? "/privacy";
 
   const consentDays = options.consent?.days ?? 30;
   const storageKey =
-    options.consent?.storageKey ?? "astro-cookie-consent";
+    options.consent?.storageKey ?? "astro-consent";
 
   const defaultCategories = {
     essential: true,
@@ -36,13 +36,13 @@ export default function astroCookieBanner(
   const ttl = consentDays * 24 * 60 * 60 * 1000;
 
   return {
-    name: "astro-cookiebanner",
+    name: "astro-consent",
 
     hooks: {
       "astro:config:setup": ({ injectScript }) => {
 
         /* ─────────────────────────────────────
-           ALL STYLES (banner + modal)
+           Styles (banner + modal)
         ───────────────────────────────────── */
 
         injectScript(
@@ -62,7 +62,7 @@ style.innerHTML = \`
 
 /* ───── Banner ───── */
 
-#astro-cookie-banner {
+#astro-consent-banner {
   position: fixed;
   left: 16px;
   right: 16px;
@@ -145,7 +145,7 @@ style.innerHTML = \`
 
 /* ───── Modal ───── */
 
-#astro-cookie-modal {
+#astro-consent-modal {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.55);
@@ -164,10 +164,6 @@ style.innerHTML = \`
   padding: 24px;
   border: 1px solid var(--cb-border);
   color: var(--cb-text);
-}
-
-.cb-modal h3 {
-  margin: 0 0 16px;
 }
 
 .cb-row {
@@ -256,7 +252,7 @@ document.head.appendChild(style);
     }));
   }
 
-  window.cookieConsent = {
+  window.astroConsent = {
     get: read,
     set: write,
     reset(){
@@ -276,12 +272,12 @@ document.head.appendChild(style);
           "page",
           `
 (() => {
-  if (window.cookieConsent.get()) return;
+  if (window.astroConsent.get()) return;
 
   const state = { ...${JSON.stringify(defaultCategories)} };
 
   const banner = document.createElement("div");
-  banner.id = "astro-cookie-banner";
+  banner.id = "astro-consent-banner";
 
   banner.innerHTML = \`
     <div class="cb-container">
@@ -303,12 +299,12 @@ document.head.appendChild(style);
   document.body.appendChild(banner);
 
   banner.querySelector(".cb-accept").onclick = () => {
-    window.cookieConsent.set({ essential:true, analytics:true, marketing:true });
+    window.astroConsent.set({ essential:true, analytics:true, marketing:true });
     banner.remove();
   };
 
   banner.querySelector(".cb-reject").onclick = () => {
-    window.cookieConsent.set({ essential:true });
+    window.astroConsent.set({ essential:true });
     banner.remove();
   };
 
@@ -316,7 +312,7 @@ document.head.appendChild(style);
 
   function openModal(){
     const modal = document.createElement("div");
-    modal.id = "astro-cookie-modal";
+    modal.id = "astro-consent-modal";
 
     modal.innerHTML = \`
       <div class="cb-modal">
@@ -356,7 +352,7 @@ document.head.appendChild(style);
     });
 
     modal.querySelector(".cb-accept").onclick = () => {
-      window.cookieConsent.set({ essential:true, ...state });
+      window.astroConsent.set({ essential:true, ...state });
       modal.remove();
       banner.remove();
     };
