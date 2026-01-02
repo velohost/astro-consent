@@ -2,21 +2,33 @@
   "name": "astro-cookiebanner",
   "version": "0.0.1",
   "type": "module",
+
+  "main": "./src/index.ts",
   "exports": {
-    ".": "./index.ts"
+    ".": "./src/index.ts"
   },
+
+  "bin": {
+    "astro-cookiebanner": "./src/cli.ts"
+  },
+
   "files": [
-    "src",
-    "index.ts"
+    "src"
   ],
+
   "keywords": [
+    "astro",
+    "astro-integration",
+    "cookie-banner",
+    "gdpr",
     "withastro"
   ],
-  "scripts": {},
+
   "devDependencies": {
     "astro": "^5.16.6"
   },
+
   "peerDependencies": {
-    "astro": "^4.0.0"
+    "astro": "^4.0.0 || ^5.0.0"
   }
 }

@@ -1,33 +1,128 @@
-# Astro Starter Kit: Integration Package
+# astro-cookiebanner
 
-This is a template for an Astro integration. Use this template for writing integrations to use in multiple projects or publish to NPM.
+A **privacy‑first, zero‑dependency cookie consent banner** for Astro projects — built for speed, compliance, and full visual control.
 
-```sh
-npm create astro@latest -- --template integration
+Designed and maintained by **Velohost**.
+
+---
+
+## ✨ Features
+
+- ✅ GDPR / UK GDPR friendly
+- 🍪 Essential, Analytics & Marketing categories
+- 🎛️ Manage preferences modal with toggle switches
+- ⚡ No external dependencies
+- 🎨 Fully themeable via CSS variables
+- 🧠 Frontend‑controlled script loading
+- 🧩 Astro Integration + CLI installer
+- 🔁 Easy uninstall via CLI
+- 🌍 Framework‑agnostic frontend API
+
+---
+
+## 📦 Installation
+
+```bash
+npm install astro-cookiebanner
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/integration)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/integration)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/integration/devcontainer.json)
+Then run the installer inside your Astro project:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── index.ts
-├── tsconfig.json
-├── package.json
+```bash
+npx astro-cookiebanner
 ```
 
-The `index.ts` file is the "entry point" for your integration. Export your integration in `index.ts` to make them importable from your package.
+To remove everything:
 
-## 🧞 Commands
+```bash
+npx astro-cookiebanner remove
+```
 
-All commands are run from the root of the project, from a terminal:
+---
 
-| Command       | Action                                                                                                                                                                                                                           |
-| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm link`    | Registers this package locally. Run `npm link my-integration` in an Astro project to install your integration                                                                                                                    |
-| `npm publish` | [Publishes](https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages#publishing-unscoped-public-packages) this package to NPM. Requires you to be [logged in](https://docs.npmjs.com/cli/v8/commands/npm-adduser) |
+## 🔧 Usage
+
+```ts
+import astroCookieBanner from "astro-cookiebanner";
+
+export default {
+  integrations: [
+    astroCookieBanner({
+      siteName: "My Website",
+      policyUrl: "/privacy",
+      consent: {
+        days: 30,
+        storageKey: "astro-cookie-consent"
+      },
+      categories: {
+        analytics: false,
+        marketing: false
+      }
+    })
+  ]
+};
+```
+
+---
+
+## 🧠 Frontend API
+
+```js
+window.cookieConsent.get();
+window.cookieConsent.set({ essential: true, analytics: true });
+window.cookieConsent.reset();
+```
+
+Example conditional loading:
+
+```js
+const consent = window.cookieConsent.get();
+
+if (consent?.categories?.analytics) {
+  // Load analytics script
+}
+```
+
+---
+
+## 🎨 Theming
+
+All visuals are controlled via:
+
+```
+src/cookiebanner.css
+```
+
+This file is never overwritten.
+
+---
+
+## 🔐 Privacy
+
+- No cookies before consent
+- No tracking without permission
+- No external calls
+- Stored locally with TTL
+
+---
+
+## 🏷️ License & Attribution
+
+Open‑source with **mandatory attribution**.
+
+Any public use, fork, or redistribution **must credit Velohost**.
+
+See `LICENSE.md` for full terms.
+
+---
+
+## 🏢 Velohost
+
+Built by **Velohost**  
+https://velohost.co.uk
+
+---
+
+## 🤝 Contributions
+
+PRs welcome — attribution must be preserved.
