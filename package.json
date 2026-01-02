@@ -1,0 +1,55 @@
+{
+  "name": "astro-consent",
+  "version": "1.0.10",
+  "description": "A privacy-first, GDPR-compliant cookie consent banner for Astro with a built-in preferences modal, zero dependencies, and full theme control.",
+  "type": "module",
+  "author": {
+    "name": "Velohost",
+    "url": "https://velohost.co.uk"
+  },
+  "license": "BSD-4-Clause",
+  "homepage": "https://velohost.co.uk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/velohost/astro-cookiebanner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/velohost/astro-cookiebanner/issues"
+  },
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "bin": {
+    "astro-consent": "dist/cli.cjs"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cli.json && mv dist/cli.js dist/cli.cjs"
+  },
+  "keywords": [
+    "astro",
+    "astro-integration",
+    "cookie-banner",
+    "cookie-consent",
+    "gdpr",
+    "privacy",
+    "analytics-consent",
+    "marketing-consent",
+    "withastro",
+    "velohost"
+  ],
+  "peerDependencies": {
+    "astro": "^4.0.0 || ^5.0.0"
+  },
+  "devDependencies": {
+    "astro": "^5.16.6"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
