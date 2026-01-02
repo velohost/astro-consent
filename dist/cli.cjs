@@ -88,12 +88,12 @@ if (!fs.existsSync(cssDir)) {
     fs.mkdirSync(cssDir, { recursive: true });
 }
 /* ─────────────────────────────────────
-   Create CSS override file (ONCE)
+   Create CSS file ONCE (variables + selectors)
 ───────────────────────────────────── */
 if (!fs.existsSync(cssFile)) {
     fs.writeFileSync(cssFile, `/* =========================================================
-   astro-consent — FULL THEME VARIABLES
-   This file is NEVER overwritten
+   astro-consent — FULL THEME + STRUCTURE
+   This file is NEVER overwritten.
    ========================================================= */
 
 :root {
@@ -130,11 +130,156 @@ if (!fs.existsSync(cssFile)) {
   --cb-toggle-on-bg: #22c55e;
   --cb-toggle-knob: #ffffff;
 }
+
+/* ===============================
+   Banner
+   =============================== */
+
+#astro-consent-banner {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9999;
+  font-family: var(--cb-font);
+}
+
+.cb-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: center;
+
+  background: var(--cb-bg);
+  border-radius: var(--cb-radius);
+  border: 1px solid var(--cb-border);
+  box-shadow: var(--cb-shadow);
+  color: var(--cb-text);
+}
+
+.cb-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cb-desc {
+  font-size: 14px;
+  color: var(--cb-muted);
+}
+
+.cb-desc a {
+  color: var(--cb-link);
+  text-decoration: none;
+}
+
+/* ===============================
+   Buttons
+   =============================== */
+
+.cb-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cb-actions button {
+  padding: var(--cb-btn-padding);
+  border-radius: var(--cb-btn-radius);
+  border: 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cb-accept {
+  background: var(--cb-accept-bg);
+  color: var(--cb-accept-text);
+}
+
+.cb-reject {
+  background: var(--cb-reject-bg);
+  color: var(--cb-reject-text);
+}
+
+.cb-manage {
+  background: var(--cb-manage-bg);
+  color: var(--cb-manage-text);
+  border: 1px solid var(--cb-manage-border);
+}
+
+/* ===============================
+   Modal
+   =============================== */
+
+#astro-consent-modal {
+  position: fixed;
+  inset: 0;
+  background: var(--cb-modal-backdrop);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.cb-modal {
+  width: 100%;
+  max-width: var(--cb-modal-width);
+  background: var(--cb-modal-bg);
+  border-radius: var(--cb-modal-radius);
+  padding: 24px;
+  color: var(--cb-text);
+}
+
+/* ===============================
+   Toggles
+   =============================== */
+
+.cb-toggle {
+  width: 44px;
+  height: 24px;
+  background: var(--cb-toggle-off-bg);
+  border-radius: 999px;
+  position: relative;
+  cursor: pointer;
+}
+
+.cb-toggle span {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: var(--cb-toggle-knob);
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s ease;
+}
+
+.cb-toggle.active {
+  background: var(--cb-toggle-on-bg);
+}
+
+.cb-toggle.active span {
+  transform: translateX(20px);
+}
+
+/* ===============================
+   Mobile
+   =============================== */
+
+@media (max-width: 640px) {
+  .cb-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+}
 `, "utf8");
     console.log("🎨 Created src/cookiebanner.css");
 }
 /* ─────────────────────────────────────
-   Inject Astro integration ONLY
+   Inject Astro integration
 ───────────────────────────────────── */
 if (!source.includes(`from "astro-consent"`)) {
     source = `import astroConsent from "astro-consent";\n${source}`;
