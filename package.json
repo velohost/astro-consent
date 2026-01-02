@@ -21,7 +21,7 @@
     ".": "./dist/index.js"
   },
   "bin": {
-    "astro-cookiebanner": "dist/cli.cjs"
+    "astro-consent": "dist/cli.cjs"
   },
   "files": [
     "dist",
