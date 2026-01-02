@@ -69,13 +69,13 @@ let source = fs.readFileSync(configPath, "utf8");
    REMOVE MODE
 ───────────────────────────────────── */
 if (command === "remove") {
-    source = source.replace(/\s*astroCookieBanner\s*\(\s*\{[\s\S]*?\}\s*\),?/gm, "");
-    source = source.replace(/import\s+astroCookieBanner\s+from\s+["']astro-cookiebanner["'];?\n?/, "");
+    source = source.replace(/\s*astroConsent\s*\(\s*\{[\s\S]*?\}\s*\),?/gm, "");
+    source = source.replace(/import\s+astroConsent\s+from\s+["']astro-consent["'];?\n?/, "");
     fs.writeFileSync(configPath, source.trim() + "\n", "utf8");
     const cssFile = path.join(CWD, "src", "cookiebanner.css");
     if (fs.existsSync(cssFile))
         fs.unlinkSync(cssFile);
-    console.log("\n🧹 astro-cookiebanner fully removed\n");
+    console.log("\n🧹 astro-consent fully removed\n");
     process.exit(0);
 }
 /* ─────────────────────────────────────
@@ -91,7 +91,7 @@ if (!fs.existsSync(cssDir)) {
 ───────────────────────────────────── */
 if (!fs.existsSync(cssFile)) {
     fs.writeFileSync(cssFile, `/* =========================================================
-   astro-cookiebanner — FULL THEME VARIABLES
+   astro-consent — FULL THEME VARIABLES
    All visuals are controlled from here.
    This file is NEVER overwritten.
    ========================================================= */
@@ -286,16 +286,16 @@ if (!fs.existsSync(cssFile)) {
 /* ─────────────────────────────────────
    Inject Astro integration
 ───────────────────────────────────── */
-if (!source.includes(`from "astro-cookiebanner"`)) {
-    source = `import astroCookieBanner from "astro-cookiebanner";\n${source}`;
+if (!source.includes(`from "astro-consent"`)) {
+    source = `import astroConsent from "astro-consent";\n${source}`;
 }
-if (!source.includes("astroCookieBanner(")) {
-    const injection = `    astroCookieBanner({
+if (!source.includes("astroConsent(")) {
+    const injection = `    astroConsent({
       siteName: "My Website",
       policyUrl: "/privacy",
       consent: {
         days: 30,
-        storageKey: "astro-cookie-consent"
+        storageKey: "astro-consent"
       },
       categories: {
         analytics: false,
@@ -306,6 +306,6 @@ if (!source.includes("astroCookieBanner(")) {
     source = source.replace(/integrations\s*:\s*\[/, match => `${match}\n${injection}`);
 }
 fs.writeFileSync(configPath, source, "utf8");
-console.log("\n🎉 astro-cookiebanner installed successfully");
+console.log("\n🎉 astro-consent installed successfully");
 console.log("👉 Edit src/cookiebanner.css to theme everything");
-console.log("👉 Run `astro-cookiebanner remove` to uninstall\n");
+console.log("👉 Run `astro-consent remove` to uninstall\n");

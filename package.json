@@ -29,7 +29,7 @@
     "LICENSE.md"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cli.json"
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cli.json && mv dist/cli.js dist/cli.cjs"
   },
   "keywords": [
     "astro",
