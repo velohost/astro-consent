@@ -1,6 +1,6 @@
-# astro-consent
+# astro-cookiebanner
 
-A **privacy-first, zero-dependency cookie consent banner** for Astro projects — built for speed, compliance, and full visual control.
+A **privacy‑first, zero‑dependency cookie consent banner** for Astro projects — built for speed, compliance, and full visual control.
 
 Designed and maintained by **Velohost**.
 
@@ -20,46 +20,34 @@ Designed and maintained by **Velohost**.
 
 ---
 
-## 📦 Installation (Required)
-
-This package uses **both an Astro integration and a CLI installer**.
-
-### 1️⃣ Install the package
+## 📦 Installation
 
 ```bash
-npm install astro-consent
+npm install astro-cookiebanner
 ```
 
-This step is **required** so Astro can import the integration at build time.
-
-### 2️⃣ Run the installer
+Then run the installer inside your Astro project:
 
 ```bash
-npx astro-consent
+npx astro-cookiebanner
 ```
 
-This will:
-
-- Inject the Astro integration into `astro.config.*`
-- Create `src/cookiebanner.css` (theme variables)
-- Enable the consent banner automatically
-
-### ❌ Uninstall
+To remove everything:
 
 ```bash
-npx astro-consent remove
+npx astro-cookiebanner remove
 ```
 
 ---
 
-## 🔧 Astro Integration Usage
+## 🔧 Usage
 
 ```ts
-import astroConsent from "astro-consent";
+import astroCookieBanner from "astro-cookiebanner";
 
 export default {
   integrations: [
-    astroConsent({
+    astroCookieBanner({
       siteName: "My Website",
       policyUrl: "/privacy",
       consent: {
@@ -83,6 +71,16 @@ export default {
 window.cookieConsent.get();
 window.cookieConsent.set({ essential: true, analytics: true });
 window.cookieConsent.reset();
+```
+
+Example conditional loading:
+
+```js
+const consent = window.cookieConsent.get();
+
+if (consent?.categories?.analytics) {
+  // Load analytics script
+}
 ```
 
 ---
@@ -114,8 +112,17 @@ Open‑source with **mandatory attribution**.
 
 Any public use, fork, or redistribution **must credit Velohost**.
 
+See `LICENSE.md` for full terms.
+
 ---
 
 ## 🏢 Velohost
 
+Built by **Velohost**  
 https://velohost.co.uk
+
+---
+
+## 🤝 Contributions
+
+PRs welcome — attribution must be preserved.
