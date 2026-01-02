@@ -59,6 +59,7 @@ function exitWith(message, code = 1) {
 }
 /* ─────────────────────────────────────
    Locate astro.config
+   
 ───────────────────────────────────── */
 const configPath = findAstroConfig();
 if (!configPath) {
@@ -88,7 +89,7 @@ if (!fs.existsSync(cssDir)) {
     fs.mkdirSync(cssDir, { recursive: true });
 }
 /* ─────────────────────────────────────
-   Create CSS file ONCE (variables + selectors)
+   Create CSS file ONCE (theme + structure)
 ───────────────────────────────────── */
 if (!fs.existsSync(cssFile)) {
     fs.writeFileSync(cssFile, `/* =========================================================
@@ -99,35 +100,35 @@ if (!fs.existsSync(cssFile)) {
 :root {
   --cb-font: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
-  --cb-bg: #0c1220;
-  --cb-border: rgba(255,255,255,0.08);
-  --cb-text: #ffffff;
-  --cb-muted: #9ca3af;
-  --cb-link: #60a5fa;
+  --cb-bg: var(--color-surface, #0c1220);
+  --cb-border: var(--color-border, rgba(255,255,255,0.08));
+  --cb-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+
+  --cb-text: var(--color-text, #ffffff);
+  --cb-muted: var(--color-muted, #9ca3af);
+  --cb-link: var(--color-primary, #60a5fa);
 
   --cb-radius: 16px;
-  --cb-shadow: 0 20px 40px rgba(0,0,0,0.35);
-
   --cb-btn-radius: 999px;
   --cb-btn-padding: 10px 18px;
 
-  --cb-accept-bg: #22c55e;
-  --cb-accept-text: #052e16;
+  --cb-accept-bg: var(--color-cta, #22c55e);
+  --cb-accept-text: #ffffff;
 
-  --cb-reject-bg: #374151;
-  --cb-reject-text: #ffffff;
+  --cb-reject-bg: var(--cb-border);
+  --cb-reject-text: var(--cb-text);
 
   --cb-manage-bg: transparent;
-  --cb-manage-text: #ffffff;
-  --cb-manage-border: rgba(255,255,255,0.15);
+  --cb-manage-text: var(--cb-text);
+  --cb-manage-border: var(--cb-border);
 
-  --cb-modal-bg: #0c1220;
-  --cb-modal-backdrop: rgba(0,0,0,0.55);
+  --cb-modal-bg: var(--cb-bg);
+  --cb-modal-backdrop: rgba(15, 23, 42, 0.45);
   --cb-modal-radius: 18px;
   --cb-modal-width: 480px;
 
-  --cb-toggle-off-bg: #374151;
-  --cb-toggle-on-bg: #22c55e;
+  --cb-toggle-off-bg: var(--cb-border);
+  --cb-toggle-on-bg: var(--color-accent, #22c55e);
   --cb-toggle-knob: #ffffff;
 }
 
@@ -166,6 +167,7 @@ if (!fs.existsSync(cssFile)) {
 }
 
 .cb-desc {
+  margin-top: 4px;
   font-size: 14px;
   color: var(--cb-muted);
 }
@@ -173,6 +175,10 @@ if (!fs.existsSync(cssFile)) {
 .cb-desc a {
   color: var(--cb-link);
   text-decoration: none;
+}
+
+.cb-desc a:hover {
+  text-decoration: underline;
 }
 
 /* ===============================
@@ -187,7 +193,7 @@ if (!fs.existsSync(cssFile)) {
 .cb-actions button {
   padding: var(--cb-btn-padding);
   border-radius: var(--cb-btn-radius);
-  border: 0;
+  border: 1px solid transparent;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -228,8 +234,39 @@ if (!fs.existsSync(cssFile)) {
   max-width: var(--cb-modal-width);
   background: var(--cb-modal-bg);
   border-radius: var(--cb-modal-radius);
-  padding: 24px;
+  padding: 28px;
   color: var(--cb-text);
+  border: 1px solid var(--cb-border);
+}
+
+/* ===============================
+   Modal rows (SPACING FIXED)
+   =============================== */
+
+.cb-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--cb-border);
+}
+
+.cb-row:last-of-type {
+  border-bottom: 0;
+  padding-bottom: 32px;
+}
+
+/* ===============================
+   Modal actions
+   =============================== */
+
+.cb-modal .cb-actions {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--cb-border);
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* ===============================
@@ -243,6 +280,7 @@ if (!fs.existsSync(cssFile)) {
   border-radius: 999px;
   position: relative;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .cb-toggle span {
@@ -273,6 +311,11 @@ if (!fs.existsSync(cssFile)) {
     flex-direction: column;
     align-items: stretch;
     gap: 16px;
+  }
+
+  .cb-actions {
+    justify-content: flex-end;
+    flex-wrap: wrap;
   }
 }
 `, "utf8");
