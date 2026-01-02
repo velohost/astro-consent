@@ -1,4 +1,4 @@
-import type { CookieBannerConfig } from "../types/config";
+import type { CookieBannerConfig } from "../types/config.js";
 
 /**
  * Default configuration values.
@@ -33,18 +33,6 @@ export const DEFAULT_CONFIG: CookieBannerConfig = {
     marketing: {
       label: "Marketing",
       description: "Used to deliver personalised ads",
-      enabled: false
-    },
-
-    functional: {
-      label: "Functional",
-      description: "Remembers preferences and settings",
-      enabled: false
-    },
-
-    performance: {
-      label: "Performance",
-      description: "Helps improve site performance and reliability",
       enabled: false
     }
   }

@@ -1,8 +1,9 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { pathToFileURL } from "node:url";
-import type { CookieBannerConfig } from "../types/config";
-import { DEFAULT_CONFIG } from "./defaults";
+
+import type { CookieBannerConfig } from "../types/config.js";
+import { DEFAULT_CONFIG } from "./defaults.js";
 
 /**
  * Safely loads the user config file and merges it with defaults.
