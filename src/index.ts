@@ -23,8 +23,7 @@ export default function astroConsent(
   const policyUrl = options.policyUrl ?? "/privacy";
 
   const consentDays = options.consent?.days ?? 30;
-  const storageKey =
-    options.consent?.storageKey ?? "astro-consent";
+  const storageKey = options.consent?.storageKey ?? "astro-consent";
 
   const defaultCategories = {
     essential: true,
@@ -40,9 +39,9 @@ export default function astroConsent(
 
     hooks: {
       "astro:config:setup": ({ injectScript }) => {
-
         /* ─────────────────────────────────────
-           Styles (banner + modal)
+           Structural styles ONLY
+           (NO colours, NO theme values)
         ───────────────────────────────────── */
 
         injectScript(
@@ -50,25 +49,13 @@ export default function astroConsent(
           `
 const style = document.createElement("style");
 style.innerHTML = \`
-:root {
-  --cb-bg: rgba(12,18,32,.88);
-  --cb-border: rgba(255,255,255,.08);
-  --cb-text: #e5e7eb;
-  --cb-muted: #9ca3af;
-  --cb-link: #60a5fa;
-  --cb-accept: #22c55e;
-  --cb-reject: #374151;
-}
-
-/* ───── Banner ───── */
-
 #astro-consent-banner {
   position: fixed;
   left: 16px;
   right: 16px;
   bottom: 16px;
   z-index: 9999;
-  font-family: system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  font-family: var(--cb-font);
 }
 
 .cb-container {
@@ -81,16 +68,10 @@ style.innerHTML = \`
   align-items: center;
 
   background: var(--cb-bg);
-  backdrop-filter: blur(14px);
-  border-radius: 16px;
+  border-radius: var(--cb-radius);
   border: 1px solid var(--cb-border);
-  box-shadow: 0 20px 40px rgba(0,0,0,.35);
-
+  box-shadow: var(--cb-shadow);
   color: var(--cb-text);
-}
-
-.cb-text {
-  max-width: 760px;
 }
 
 .cb-title {
@@ -108,59 +89,54 @@ style.innerHTML = \`
   text-decoration: none;
 }
 
-.cb-desc a:hover {
-  text-decoration: underline;
-}
-
 .cb-actions {
   display: flex;
   gap: 10px;
-  flex-shrink: 0;
 }
 
 .cb-actions button {
-  padding: 10px 18px;
-  border-radius: 999px;
-  border: 0;
+  padding: var(--cb-btn-padding);
+  border-radius: var(--cb-btn-radius);
+  border: 1px solid transparent;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
 }
 
+/* Buttons use ONLY variables */
 .cb-accept {
-  background: var(--cb-accept);
-  color: #052e16;
+  background: var(--cb-accept-bg);
+  color: var(--cb-accept-text);
 }
 
 .cb-reject {
-  background: var(--cb-reject);
-  color: #e5e7eb;
+  background: var(--cb-reject-bg);
+  color: var(--cb-reject-text);
 }
 
 .cb-manage {
-  background: transparent;
-  color: var(--cb-text);
-  border: 1px solid var(--cb-border);
+  background: var(--cb-manage-bg);
+  color: var(--cb-manage-text);
+  border: 1px solid var(--cb-manage-border);
 }
 
-/* ───── Modal ───── */
+/* Modal */
 
 #astro-consent-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.55);
+  background: var(--cb-modal-backdrop);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10000;
-  font-family: system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
 }
 
 .cb-modal {
   width: 100%;
-  max-width: 480px;
-  background: #0c1220;
-  border-radius: 18px;
+  max-width: var(--cb-modal-width);
+  background: var(--cb-modal-bg);
+  border-radius: var(--cb-modal-radius);
   padding: 24px;
   border: 1px solid var(--cb-border);
   color: var(--cb-text);
@@ -178,10 +154,12 @@ style.innerHTML = \`
   border-bottom: 0;
 }
 
+/* Toggles */
+
 .cb-toggle {
   width: 44px;
   height: 24px;
-  background: #374151;
+  background: var(--cb-toggle-off-bg);
   border-radius: 999px;
   position: relative;
   cursor: pointer;
@@ -191,15 +169,15 @@ style.innerHTML = \`
   position: absolute;
   width: 18px;
   height: 18px;
-  background: #fff;
+  background: var(--cb-toggle-knob);
   border-radius: 50%;
   top: 3px;
   left: 3px;
-  transition: transform .2s;
+  transition: transform 0.2s ease;
 }
 
 .cb-toggle.active {
-  background: var(--cb-accept);
+  background: var(--cb-toggle-on-bg);
 }
 
 .cb-toggle.active span {
@@ -229,22 +207,24 @@ document.head.appendChild(style);
   const KEY = "${storageKey}";
   const TTL = ${ttl};
 
-  function now(){ return Date.now(); }
+  function now() { return Date.now(); }
 
-  function read(){
-    try{
+  function read() {
+    try {
       const raw = localStorage.getItem(KEY);
-      if(!raw) return null;
+      if (!raw) return null;
       const data = JSON.parse(raw);
-      if(data.expiresAt < now()){
+      if (data.expiresAt < now()) {
         localStorage.removeItem(KEY);
         return null;
       }
       return data;
-    }catch{ return null; }
+    } catch {
+      return null;
+    }
   }
 
-  function write(categories){
+  function write(categories) {
     localStorage.setItem(KEY, JSON.stringify({
       updatedAt: now(),
       expiresAt: now() + TTL,
@@ -255,7 +235,7 @@ document.head.appendChild(style);
   window.astroConsent = {
     get: read,
     set: write,
-    reset(){
+    reset() {
       localStorage.removeItem(KEY);
       location.reload();
     }
@@ -281,7 +261,7 @@ document.head.appendChild(style);
 
   banner.innerHTML = \`
     <div class="cb-container">
-      <div class="cb-text">
+      <div>
         <div class="cb-title">${siteName} uses cookies</div>
         <div class="cb-desc">
           Choose how your data is used.
@@ -299,18 +279,18 @@ document.head.appendChild(style);
   document.body.appendChild(banner);
 
   banner.querySelector(".cb-accept").onclick = () => {
-    window.astroConsent.set({ essential:true, analytics:true, marketing:true });
+    window.astroConsent.set({ essential: true, analytics: true, marketing: true });
     banner.remove();
   };
 
   banner.querySelector(".cb-reject").onclick = () => {
-    window.astroConsent.set({ essential:true });
+    window.astroConsent.set({ essential: true });
     banner.remove();
   };
 
   banner.querySelector(".cb-manage").onclick = openModal;
 
-  function openModal(){
+  function openModal() {
     const modal = document.createElement("div");
     modal.id = "astro-consent-modal";
 
@@ -343,7 +323,7 @@ document.head.appendChild(style);
 
     modal.querySelectorAll(".cb-toggle").forEach(toggle => {
       const key = toggle.getAttribute("data-key");
-      if(state[key]) toggle.classList.add("active");
+      if (state[key]) toggle.classList.add("active");
 
       toggle.onclick = () => {
         state[key] = !state[key];
@@ -352,13 +332,13 @@ document.head.appendChild(style);
     });
 
     modal.querySelector(".cb-accept").onclick = () => {
-      window.astroConsent.set({ essential:true, ...state });
+      window.astroConsent.set({ essential: true, ...state });
       modal.remove();
       banner.remove();
     };
 
     modal.onclick = e => {
-      if(e.target === modal) modal.remove();
+      if (e.target === modal) modal.remove();
     };
   }
 })();
