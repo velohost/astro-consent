@@ -118,4 +118,4 @@ Any public use, fork, or redistribution **must credit Velohost**.
 
 ## 🏢 Velohost
 
-https://velohost.co.uk
+https://velohost.co.uk/
