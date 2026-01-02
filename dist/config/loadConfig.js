@@ -8,11 +8,9 @@ import { DEFAULT_CONFIG } from "./defaults.js";
  * Cache-busted to ensure updates are picked up during dev.
  */
 export async function loadUserConfig(projectRoot) {
-    const configPath = path.join(projectRoot, "src", "cookiebanner", "config.ts");
+    const configPath = path.join(projectRoot, "src", "astro-consent", "config.ts");
     let userConfig = {};
     try {
-        // 🔑 IMPORTANT:
-        // Bust Node ESM import cache using file modified time
         const stat = fs.statSync(configPath);
         const cacheBuster = `?v=${stat.mtimeMs}`;
         const imported = await import(
@@ -21,20 +19,11 @@ export async function loadUserConfig(projectRoot) {
         userConfig = imported?.default ?? {};
     }
     catch (err) {
-        console.warn("[cookiebanner] Failed to load user config, falling back to defaults:", err);
+        console.warn("[astro-consent] Failed to load user config, falling back to defaults");
     }
     return {
-        /* ─────────────────────────────
-           Site name
-        ───────────────────────────── */
         siteName: userConfig.siteName ?? DEFAULT_CONFIG.siteName,
-        /* ─────────────────────────────
-           Policy URL
-        ───────────────────────────── */
         policyUrl: userConfig.policyUrl ?? DEFAULT_CONFIG.policyUrl,
-        /* ─────────────────────────────
-           Consent settings
-        ───────────────────────────── */
         consent: {
             enabled: userConfig.consent?.enabled ??
                 DEFAULT_CONFIG.consent.enabled,
@@ -43,15 +32,14 @@ export async function loadUserConfig(projectRoot) {
             storageKey: userConfig.consent?.storageKey ??
                 DEFAULT_CONFIG.consent.storageKey
         },
-        /* ─────────────────────────────
-           Categories
-        ───────────────────────────── */
         categories: mergeCategories(userConfig.categories, DEFAULT_CONFIG.categories)
     };
 }
 /**
  * Merge category config safely.
- * Defaults are preserved, user overrides where provided.
+ * - Defaults are preserved
+ * - User overrides win
+ * - Custom categories are supported
  */
 function mergeCategories(userCategories, defaultCategories) {
     const merged = {};
@@ -62,11 +50,14 @@ function mergeCategories(userCategories, defaultCategories) {
             ...(userCategories?.[key] ?? {})
         };
     }
-    // Include any custom categories the user added
+    // Add user-defined custom categories safely
     if (userCategories) {
         for (const key of Object.keys(userCategories)) {
             if (!merged[key]) {
-                merged[key] = userCategories[key];
+                merged[key] = {
+                    ...userCategories[key],
+                    enabled: userCategories[key].enabled ?? false
+                };
             }
         }
     }
