@@ -1,6 +1,6 @@
 {
   "name": "astro-consent",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A privacy-first, GDPR-compliant cookie consent banner for Astro with a built-in preferences modal, zero dependencies, and full theme control.",
   "type": "module",
   "author": {
