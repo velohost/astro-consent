@@ -11,10 +11,10 @@
   "homepage": "https://velohost.co.uk/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/velohost/astro-cookiebanner.git"
+    "url": "git+https://github.com/velohost/astro-consent.git"
   },
   "bugs": {
-    "url": "https://github.com/velohost/astro-cookiebanner/issues"
+    "url": "https://github.com/velohost/astro-consent/issues"
   },
   "main": "./dist/index.js",
   "exports": {
