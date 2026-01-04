@@ -108,11 +108,8 @@ This file is never overwritten.
 
 ---
 
-## 🏷️ License & Attribution
-
-Open‑source with **mandatory attribution**.
-
-Any public use, fork, or redistribution **must credit Velohost**.
+## License
+MIT © Velohost
 
 ---
 

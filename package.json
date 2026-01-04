@@ -7,8 +7,8 @@
     "name": "Velohost",
     "url": "https://velohost.co.uk"
   },
-  "license": "BSD-4-Clause",
-  "homepage": "https://velohost.co.uk",
+  "license": "MIT",
+  "homepage": "https://velohost.co.uk/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/velohost/astro-cookiebanner.git"
