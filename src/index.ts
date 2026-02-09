@@ -45,7 +45,17 @@ export default function astroConsent(
 
         injectScript(
           "head-inline",
-          `@import "/src/cookiebanner.css";`
+          `
+(() => {
+  const id = "astro-consent-css";
+  if (document.getElementById(id)) return;
+  const link = document.createElement("link");
+  link.id = id;
+  link.rel = "stylesheet";
+  link.href = "/src/cookiebanner.css";
+  document.head.appendChild(link);
+})();
+`
         );
 
         /* ─────────────────────────────────────
