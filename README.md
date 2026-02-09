@@ -31,6 +31,7 @@ Just a **fast, deterministic, developer-controlled consent layer** that respects
 - 🎨 Fully themeable via CSS variables
 - 🧠 Frontend-controlled script loading
 - 🧩 Native Astro integration
+- 🧾 Built-in TypeScript declarations
 - 🛠️ CLI installer & remover
 - 🔁 Clean uninstall with no residue
 - 🌍 Framework-agnostic frontend API
@@ -139,6 +140,12 @@ window.cookieConsent.set({ essential: true, analytics: true });
 window.cookieConsent.reset();
 ```
 
+## 🧾 TypeScript
+
+TypeScript declarations are included in the package.
+
+No separate `@types` install is required.
+
 ---
 
 ## 🎨 Theming
@@ -173,6 +180,12 @@ This guarantees the banner styles are available on every page.
 - No tracking without permission
 - No external requests
 - Stored locally with TTL
+
+---
+
+## 🙏 Acknowledgements
+
+Thanks to [@magicspon](https://github.com/magicspon) for assisting with the PR and issue triage.
 
 ---
 
