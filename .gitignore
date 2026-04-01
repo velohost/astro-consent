@@ -27,3 +27,4 @@ pnpm-debug.log*
 
 # local throwaway smoke app
 astro/
+/astro-frontend
