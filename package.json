@@ -1,10 +1,10 @@
 {
   "name": "astro-consent",
-  "version": "1.0.17",
+  "version": "2.0.0",
   "description": "A privacy-first, GDPR-compliant cookie consent banner for Astro with a built-in preferences modal, zero dependencies, and full theme control.",
   "type": "module",
   "author": {
-    "name": "Velohost",
+    "name": "Velohost UK Limited",
     "url": "https://velohost.co.uk"
   },
   "license": "MIT",
@@ -30,10 +30,11 @@
   "files": [
     "dist",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE.md"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cli.json && mv dist/cli.js dist/cli.cjs"
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cli.json && node -e \"const fs=require('fs');const path=require('path');fs.renameSync('dist/cli.js','dist/cli.cjs');fs.renameSync('dist/templates/cssTemplate.js','dist/templates/cssTemplate.cjs');let s=fs.readFileSync('dist/cli.cjs','utf8');s=s.replace('./templates/cssTemplate.js','./templates/cssTemplate.cjs');fs.writeFileSync('dist/cli.cjs',s);fs.chmodSync('dist/cli.cjs',0o755);\""
   },
   "keywords": [
     "astro",
@@ -45,14 +46,15 @@
     "analytics-consent",
     "marketing-consent",
     "withastro",
-    "velohost"
+    "velohost-uk-limited"
   ],
   "peerDependencies": {
-    "astro": "^4.0.0 || ^5.0.0"
+    "astro": "^4.0.0 || ^5.0.0 || ^6.0.0"
   },
   "devDependencies": {
     "@types/node": "^25.2.1",
-    "astro": "^5.16.6"
+    "astro": "^6.0.0",
+    "typescript": "^5.9.2"
   },
   "engines": {
     "node": ">=18.0.0"
